@@ -79,3 +79,19 @@ def test_split_groups_keeps_pairs_together():
     ids = lambda rows: {r["id"][:-1] for r in rows}  # noqa: E731
     assert not ids(s["train"]) & ids(s["test"])
     assert not ids(s["train"]) & ids(s["val"])
+
+
+def test_stream_pages_through_rows_api(monkeypatch):
+    import stylesum.data as d
+
+    calls = []
+
+    def fake_get(url):
+        calls.append(url)
+        off = int(url.split("offset=")[1].split("&")[0])
+        rows = [{"row": {"i": i}} for i in range(off, min(off + 2, 5))]
+        return {"num_rows_total": 5, "rows": rows}
+
+    monkeypatch.setattr(d, "_get_json", fake_get)
+    assert [r["i"] for r in d._stream("x", page=2)] == [0, 1, 2, 3, 4]
+    assert len(calls) == 3

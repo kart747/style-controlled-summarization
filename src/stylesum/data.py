@@ -99,10 +99,53 @@ def clean_reddit_post(text: str) -> str:
 # --------------------------------------------------------------------------- #
 # Per-source example generators
 # --------------------------------------------------------------------------- #
-def _stream(name: str, config: str | None = None, split: str = "train"):
-    from datasets import load_dataset
+ROWS_API = "https://datasets-server.huggingface.co/rows"
 
-    return load_dataset(name, config, split=split, streaming=True)
+
+def _get_json(url: str, retries: int = 8, timeout: float = 120.0) -> dict:
+    import time
+    import urllib.request
+
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "stylesum-data/0.1"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.load(resp)
+        except Exception as e:  # network is flaky: back off and retry
+            if attempt == retries - 1:
+                raise
+            wait = min(60, 2 ** attempt)
+            print(f"  retry {attempt + 1}/{retries} in {wait}s ({type(e).__name__}: {e})")
+            time.sleep(wait)
+    raise RuntimeError("unreachable")
+
+
+def _stream(name: str, config: str | None = None, split: str = "train",
+            page: int = 100) -> Iterator[dict]:
+    """Lazily page through a Hub dataset via the dataset-viewer *rows* API.
+
+    This avoids downloading whole parquet files: the PLOS train parquet is a
+    single 500 MB row group, which plain streaming must fetch in full before
+    yielding a single row."""
+    from urllib.parse import urlencode
+
+    offset, total = 0, None
+    while total is None or offset < total:
+        q = urlencode({"dataset": name, "config": config or "default", "split": split,
+                       "offset": offset, "length": page})
+        d = _get_json(f"{ROWS_API}?{q}")
+        total = d["num_rows_total"]
+        rows = d["rows"]
+        if not rows:
+            return
+        for r in rows:
+            yield r["row"]
+        offset += len(rows)
+
+
+def _chain(*iters: Iterable[dict]) -> Iterator[dict]:
+    for it in iters:
+        yield from it
 
 
 def plos_examples(rows: Iterable[dict]) -> Iterator[list[dict]]:
@@ -176,17 +219,21 @@ def read_jsonl(path: str | Path) -> list[dict]:
 def build(out: Path, n_train: int, n_val: int, n_test: int, seed: int = 13) -> None:
     need = n_train + n_val + n_test
     sources = {
-        "plos": lambda: plos_examples(_stream(PLOS)),
+        # PLOS train is one 500 MB row group the rows API refuses to scan; the
+        # validation + test splits give 2,752 distinct papers, which is plenty.
+        "plos": lambda: plos_examples(_chain(_stream(PLOS, split="validation", page=50),
+                                             _stream(PLOS, split="test", page=50))),
         "cnn": lambda: cnn_examples(_stream(*CNN)),
         "tifu": lambda: tifu_examples(_stream(TIFU)),
     }
     splits: dict[str, list[dict]] = {"train": [], "val": [], "test": []}
     for name, make in sources.items():
         # oversample then shuffle so we don't just take the head of the stream
-        groups = take_groups(make(), int(need * 1.5))
-        if len(groups) < need:
+        groups = take_groups(make(), int(need * 1.2))
+        if len(groups) < n_val + n_test + 100:
             raise RuntimeError(f"{name}: only {len(groups)} usable examples, need {need}")
-        print(f"{name}: collected {len(groups)} groups")
+        print(f"{name}: collected {len(groups)} groups", flush=True)
+        # If a source is short (PLOS), train gets whatever remains after val/test.
         for k, v in split_groups(groups, n_train, n_val, n_test, seed).items():
             splits[k].extend(v)
     for k, rows in splits.items():
