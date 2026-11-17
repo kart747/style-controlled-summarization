@@ -57,33 +57,48 @@ See [`results/RESULTS.md`](results/RESULTS.md) for the full tables.
 
 ### Headline results (test set, 50 documents per style)
 
-| System | ROUGE-1 | ROUGE-2 | ROUGE-Lsum | Style acc. |
-|---|---:|---:|---:|---:|
-| Reference (human) | 100.0 | 100.0 | 100.0 | 88% |
-| Lead-3 (extractive) | 25.0 | 6.8 | 21.9 | 72% |
-| TextRank (extractive) | 27.9 | 8.0 | 24.4 | 75% |
-| FLAN-T5-small zero-shot + style prompt | 24.3 | 6.8 | 21.9 | 68% |
-| **FLAN-T5-small fine-tuned + style prefix** | **34.2** | **10.2** | **31.2** | 72% |
+| System | ROUGE-1 | ROUGE-2 | ROUGE-Lsum | Style acc. (lexical) | Style acc. (markers) |
+|---|---:|---:|---:|---:|---:|
+| Reference (human) | 100.0 | 100.0 | 100.0 | 88% | 91% |
+| Lead-3 (extractive) | 25.0 | 6.8 | 21.9 | 72% | 51% |
+| TextRank (extractive) | 27.9 | 8.0 | 24.4 | 75% | 48% |
+| FLAN-T5-small zero-shot + style prompt | 24.3 | 6.8 | 21.9 | 68% | 60% |
+| **FLAN-T5-small fine-tuned, 2 epochs** | **34.2** | **10.2** | **31.2** | 72% | 75% |
+| **FLAN-T5-small fine-tuned, 4 epochs** | 33.6 | 9.8 | 30.5 | **77%** | **75%** |
 
-Per style, fine-tuning raises ROUGE-1 from 25.4 to **41.0** (academic), 26.5 to **40.2** (simple), 31.6 to **34.4**
-(formal) and 13.8 to **21.2** (casual) over the zero-shot model. In-style accuracy is 94% for formal and 98% for casual.
+The two style-accuracy columns use two style classifiers, both trained on the reference summaries:
 
-**What the control prefix changes.** Lengths follow the requested style on the same inputs: academic ≈ 106
-words, simple ≈ 93, formal ≈ 45 and casual ≈ 32 in the controllability test. Formal outputs read like
+* **Lexical:** TF-IDF n-grams. It is strong, but it can also recognise a style from its *topic*
+  (science vs. news vs. Reddit).
+* **Markers:** a topic-blind classifier (`MarkerStyleClassifier`). It sees only length, sentence length,
+  readability, word length, contractions and first-person rate, never the words themselves.
+
+Per style, fine-tuning raises ROUGE-1 from 25.4 to **41.0** (academic), 26.5 to **40.2** (simple), 31.6 to
+**34.4** (formal) and 13.8 to **21.2** (casual) over the zero-shot model. Formal and casual outputs are judged
+in-style 94–100% of the time by both classifiers. Training for 4 epochs instead of 2 trades about 0.6 ROUGE-1
+for better style accuracy.
+
+**What the control prefix changes.** Lengths follow the requested style on the same inputs: academic ≈ 105
+words, simple ≈ 94, formal ≈ 45 and casual ≈ 32 in the controllability test. Formal outputs read like
 headline-style news highlights and casual outputs like one-line takeaways (see
 [`results/demo_example.json`](results/demo_example.json)).
 
 **Limits of the style control.**
 * The model mostly changes *length and compression*. It changes vocabulary much less: a 77M-parameter
-  model trained for 2 epochs stays close to the source wording.
-* On the controllability test, the classifier puts only 10–40% of outputs in the requested style. Part of
-  this is the classifier itself: it also learns *topic*, so a "casual" summary of a biology paper is still
-  labelled scientific.
-* Academic vs. simple is the hardest pair. Even the human references are only separable about 80% of the
-  time, because PLOS "lay" summaries are written by the authors and stay fairly technical.
+  model stays close to the source wording.
+* **Academic vs. simple is not separated.** The topic-blind classifier labels 0% of the generated academic
+  summaries as academic. The model writes both styles at similar lengths (~160 vs. ~140 words), while the
+  human references differ (246 vs. 181 words). Two causes:
+  * Training targets were capped at 256 tokens, which truncates long abstracts.
+  * PLOS lay summaries are written by the authors and stay fairly technical, so even the lexical
+    classifier only separates the *references* about 80% of the time.
+* When one document is summarized in all four styles, the topic-blind classifier puts 33–63% of outputs in
+  the requested style, compared with 25% for random guessing. The lexical classifier scores lower because it
+  is confused by topic: a "casual" summary of a biology paper still looks scientific to it.
 
-Setup: zero-shot results use 2 beams and fine-tuned results use 4. Training ran for 2 epochs on 7,200
-examples on an RTX 3050 (4 GB), took 37 min, and validation loss went 2.76 → 2.74.
+Setup: zero-shot results use 2 beams and fine-tuned results use 4. Training ran for 2 epochs (37 min) on
+7,200 examples on an RTX 3050 (4 GB), plus 2 more epochs at lr 3e-4 for the 4-epoch model (22 min).
+Validation loss: 2.76 → 2.74 → 2.74.
 
 ## Project layout
 
@@ -154,5 +169,7 @@ pseudo-parallel multi-style corpus.
 * The style classifier can partly use *topic* (science vs. news vs. Reddit) as a cue. The academic vs. simple
   comparison is the clean test because the source documents are identical.
 * `flan-t5-small` is small; `flan-t5-base`, or LoRA on a larger model, should improve ROUGE and fluency.
+* Raise the target cap from 256 to 384+ tokens so academic abstracts are not truncated, and add
+  length-bucket control tokens.
 * Further ideas: BERTScore / factual-consistency (e.g. SummaC) metrics, eLife lay summaries as extra data,
   and learned soft style prefixes (prefix-tuning) instead of text prefixes.
