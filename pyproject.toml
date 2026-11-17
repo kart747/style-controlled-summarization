@@ -1,0 +1,33 @@
+[project]
+name = "stylesum"
+version = "0.1.0"
+description = "Abstractive text summarization with style control (academic, simple, formal, casual)"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "transformers>=4.40",
+    "accelerate>=0.30",
+    "datasets>=2.19",
+    "sentencepiece",
+    "rouge-score",
+    "nltk",
+    "textstat",
+    "scikit-learn",
+    "networkx",
+    "numpy",
+]
+
+[project.optional-dependencies]
+app = ["gradio>=4"]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
