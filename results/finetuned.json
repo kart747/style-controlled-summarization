@@ -3,117 +3,123 @@
   "per_style": {
     "academic": {
       "n": 50,
-      "rouge1": 41.02,
-      "rouge2": 11.67,
-      "rougeLsum": 37.85,
-      "style_acc": 26.0,
-      "words": 159.36,
-      "fkgl": 15.61,
-      "flesch": 27.69,
-      "avg_word_len": 5.24,
+      "rouge1": 40.45,
+      "rouge2": 11.62,
+      "rougeLsum": 37.38,
+      "style_acc": 36.0,
+      "marker_acc": 0.0,
+      "words": 161.92,
+      "fkgl": 15.13,
+      "flesch": 28.86,
+      "avg_word_len": 5.23,
       "contractions_pct": 0.0,
-      "first_person_pct": 0.07
+      "first_person_pct": 0.06
     },
     "simple": {
       "n": 50,
-      "rouge1": 40.19,
-      "rouge2": 10.32,
-      "rougeLsum": 36.36,
-      "style_acc": 68.0,
-      "words": 141.16,
-      "fkgl": 15.31,
-      "flesch": 26.52,
-      "avg_word_len": 5.35,
+      "rouge1": 40.0,
+      "rouge2": 10.19,
+      "rougeLsum": 35.91,
+      "style_acc": 80.0,
+      "marker_acc": 100.0,
+      "words": 139.36,
+      "fkgl": 15.43,
+      "flesch": 25.61,
+      "avg_word_len": 5.33,
       "contractions_pct": 0.0,
-      "first_person_pct": 0.03
+      "first_person_pct": 0.04
     },
     "formal": {
       "n": 50,
-      "rouge1": 34.43,
-      "rouge2": 12.97,
-      "rougeLsum": 32.41,
-      "style_acc": 94.0,
-      "words": 45.24,
-      "fkgl": 8.65,
-      "flesch": 57.97,
-      "avg_word_len": 4.88,
-      "contractions_pct": 1.65,
-      "first_person_pct": 0.3
+      "rouge1": 32.97,
+      "rouge2": 11.8,
+      "rougeLsum": 30.82,
+      "style_acc": 96.0,
+      "marker_acc": 100.0,
+      "words": 46.86,
+      "fkgl": 8.71,
+      "flesch": 57.02,
+      "avg_word_len": 4.94,
+      "contractions_pct": 1.82,
+      "first_person_pct": 0.26
     },
     "casual": {
       "n": 50,
-      "rouge1": 21.21,
-      "rouge2": 5.79,
-      "rougeLsum": 17.99,
-      "style_acc": 98.0,
-      "words": 14.66,
-      "fkgl": 4.77,
-      "flesch": 85.31,
-      "avg_word_len": 3.77,
-      "contractions_pct": 2.09,
-      "first_person_pct": 14.65
+      "rouge1": 20.84,
+      "rouge2": 5.6,
+      "rougeLsum": 17.85,
+      "style_acc": 96.0,
+      "marker_acc": 100.0,
+      "words": 14.94,
+      "fkgl": 4.82,
+      "flesch": 85.05,
+      "avg_word_len": 3.86,
+      "contractions_pct": 1.83,
+      "first_person_pct": 14.83
     }
   },
+  "beams": 4,
+  "limit": 50,
   "controllability": {
     "academic": {
-      "style_acc": 10.0,
+      "style_acc": 20.0,
+      "marker_acc": 0.0,
       "predicted": {
-        "academic": 3,
-        "casual": 8,
-        "formal": 10,
-        "simple": 9
+        "casual": 7,
+        "formal": 7,
+        "simple": 16
       },
-      "words": 106.13,
-      "fkgl": 11.39,
-      "flesch": 49.66,
-      "avg_word_len": 4.7,
-      "contractions_pct": 1.8,
-      "first_person_pct": 3.21
+      "words": 105.4,
+      "fkgl": 11.07,
+      "flesch": 50.31,
+      "avg_word_len": 4.73,
+      "contractions_pct": 1.49,
+      "first_person_pct": 3.37
     },
     "simple": {
-      "style_acc": 26.67,
+      "style_acc": 33.33,
+      "marker_acc": 56.67,
       "predicted": {
-        "academic": 4,
-        "casual": 8,
-        "formal": 10,
-        "simple": 8
+        "casual": 5,
+        "formal": 8,
+        "simple": 17
       },
-      "words": 93.43,
-      "fkgl": 10.8,
-      "flesch": 51.66,
-      "avg_word_len": 4.69,
-      "contractions_pct": 1.94,
-      "first_person_pct": 3.41
+      "words": 93.8,
+      "fkgl": 11.16,
+      "flesch": 48.8,
+      "avg_word_len": 4.77,
+      "contractions_pct": 1.95,
+      "first_person_pct": 3.01
     },
     "formal": {
       "style_acc": 40.0,
+      "marker_acc": 63.33,
       "predicted": {
-        "academic": 3,
-        "casual": 6,
-        "formal": 12,
-        "simple": 9
+        "casual": 8,
+        "formal": 19,
+        "simple": 3
       },
-      "words": 45.1,
-      "fkgl": 9.9,
-      "flesch": 50.86,
-      "avg_word_len": 4.89,
-      "contractions_pct": 1.72,
-      "first_person_pct": 3.32
+      "words": 45.23,
+      "fkgl": 9.26,
+      "flesch": 52.84,
+      "avg_word_len": 4.86,
+      "contractions_pct": 1.42,
+      "first_person_pct": 3.42
     },
     "casual": {
       "style_acc": 26.67,
+      "marker_acc": 33.33,
       "predicted": {
-        "academic": 2,
-        "casual": 8,
-        "formal": 10,
-        "simple": 10
+        "casual": 10,
+        "formal": 19,
+        "simple": 1
       },
-      "words": 32.33,
-      "fkgl": 10.11,
-      "flesch": 48.75,
-      "avg_word_len": 4.9,
-      "contractions_pct": 0.96,
-      "first_person_pct": 4.1
+      "words": 32.1,
+      "fkgl": 10.02,
+      "flesch": 49.43,
+      "avg_word_len": 4.94,
+      "contractions_pct": 0.72,
+      "first_person_pct": 4.21
     }
   }
 }

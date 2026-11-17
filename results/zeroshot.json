@@ -7,6 +7,7 @@
       "rouge2": 7.06,
       "rougeLsum": 22.98,
       "style_acc": 30.0,
+      "marker_acc": 0.0,
       "words": 61.6,
       "fkgl": 16.71,
       "flesch": 25.21,
@@ -20,6 +21,7 @@
       "rouge2": 6.81,
       "rougeLsum": 23.46,
       "style_acc": 60.0,
+      "marker_acc": 64.0,
       "words": 55.12,
       "fkgl": 16.08,
       "flesch": 24.9,
@@ -33,6 +35,7 @@
       "rouge2": 10.66,
       "rougeLsum": 29.11,
       "style_acc": 94.0,
+      "marker_acc": 78.0,
       "words": 42.38,
       "fkgl": 10.01,
       "flesch": 52.82,
@@ -46,6 +49,7 @@
       "rouge2": 2.87,
       "rougeLsum": 11.96,
       "style_acc": 90.0,
+      "marker_acc": 98.0,
       "words": 11.42,
       "fkgl": 4.29,
       "flesch": 83.11,
@@ -57,11 +61,11 @@
   "controllability": {
     "academic": {
       "style_acc": 10.0,
+      "marker_acc": 0.0,
       "predicted": {
-        "academic": 3,
-        "casual": 7,
-        "formal": 11,
-        "simple": 9
+        "casual": 5,
+        "formal": 8,
+        "simple": 17
       },
       "words": 65.6,
       "fkgl": 14.12,
@@ -72,11 +76,11 @@
     },
     "simple": {
       "style_acc": 30.0,
+      "marker_acc": 40.0,
       "predicted": {
-        "academic": 3,
         "casual": 7,
         "formal": 11,
-        "simple": 9
+        "simple": 12
       },
       "words": 61.87,
       "fkgl": 12.03,
@@ -87,11 +91,11 @@
     },
     "formal": {
       "style_acc": 40.0,
+      "marker_acc": 46.67,
       "predicted": {
-        "academic": 1,
-        "casual": 7,
-        "formal": 12,
-        "simple": 10
+        "casual": 13,
+        "formal": 14,
+        "simple": 3
       },
       "words": 35.5,
       "fkgl": 11.38,
@@ -102,11 +106,10 @@
     },
     "casual": {
       "style_acc": 36.67,
+      "marker_acc": 93.33,
       "predicted": {
-        "academic": 1,
-        "casual": 11,
-        "formal": 14,
-        "simple": 4
+        "casual": 28,
+        "formal": 2
       },
       "words": 16.27,
       "fkgl": 8.25,
