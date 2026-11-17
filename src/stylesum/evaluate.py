@@ -45,7 +45,7 @@ def get_classifier(data: Path, path: Path) -> StyleClassifier:
     return clf
 
 
-def make_system(name: str, model_path: str):
+def make_system(name: str, model_path: str, device: str | None = None, beams: int = 4):
     """Return ``fn(list_of_docs, style) -> list_of_summaries``."""
     if name in EXTRACTIVE:
         f = EXTRACTIVE[name]
@@ -53,8 +53,8 @@ def make_system(name: str, model_path: str):
     if name == "reference":
         return None
     path = DEFAULT_MODEL if name == "zeroshot" else model_path
-    m = StyleSummarizer(path)
-    return lambda docs, style: m.summarize(docs, style)
+    m = StyleSummarizer(path, device=device)
+    return lambda docs, style: m.summarize(docs, style, num_beams=beams)
 
 
 def evaluate_system(name, fn, groups, clf) -> tuple[dict, list[dict]]:
@@ -106,6 +106,8 @@ def main() -> None:
     ap.add_argument("--control-docs", type=int, default=50)
     ap.add_argument("--results", type=Path, default=Path("results"))
     ap.add_argument("--clf", type=Path, default=Path("outputs/style_clf.pkl"))
+    ap.add_argument("--device", default=None, help="cuda / cpu (default: auto)")
+    ap.add_argument("--beams", type=int, default=4)
     a = ap.parse_args()
 
     a.results.mkdir(parents=True, exist_ok=True)
@@ -121,7 +123,7 @@ def main() -> None:
     ctrl_docs = ctrl_docs[: a.control_docs]
 
     for name in a.systems:
-        fn = make_system(name, a.model)
+        fn = make_system(name, a.model, a.device, a.beams)
         res, samples = evaluate_system(name, fn, groups, clf)
         report = {"system": name, "per_style": res}
         if name in ("zeroshot", "finetuned"):
