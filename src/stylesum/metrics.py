@@ -104,3 +104,35 @@ class StyleClassifier:
         with open(path, "rb") as f:
             obj.pipe = pickle.load(f)  # noqa: S301 - our own artifact
         return obj
+
+
+MARKER_FEATURES = ["words", "fkgl", "flesch", "avg_word_len", "contractions_pct", "first_person_pct"]
+
+
+def marker_vector(text: str) -> list[float]:
+    m = style_markers(text)
+    sents = max(len(split_sentences(text)), 1)
+    return [float(m[k]) for k in MARKER_FEATURES] + [np.log1p(m["words"]), m["words"] / sents]
+
+
+def marker_matrix(texts: Sequence[str]) -> np.ndarray:
+    return np.array([marker_vector(t) for t in texts])
+
+
+class MarkerStyleClassifier(StyleClassifier):
+    """Topic-independent style classifier.
+
+    Sees only surface style markers (length, readability, word length,
+    contractions, first person, sentence length) and never the words
+    themselves, so it cannot recognise a style from the *topic* of the text.
+    This makes it a fairer judge of controllability when one document is
+    summarised in every style."""
+
+    def __init__(self) -> None:
+        from sklearn.preprocessing import FunctionTransformer, StandardScaler
+
+        self.pipe = make_pipeline(
+            FunctionTransformer(marker_matrix),
+            StandardScaler(),
+            LogisticRegression(max_iter=2000, C=1.0),
+        )

@@ -43,3 +43,15 @@ def test_style_classifier_roundtrip(tmp_path):
     clf.save(tmp_path / "clf.pkl")
     again = StyleClassifier.load(tmp_path / "clf.pkl")
     assert again.predict(["haha i messed up my bike lol"]) == ["casual"]
+
+
+def test_marker_classifier_ignores_topic():
+    from stylesum.metrics import MarkerStyleClassifier
+
+    casual = [f"lol i can't believe i broke my {x}. my bad haha." for x in "car dog cat phone keys bike".split()]
+    academic = [f"We comprehensively characterize heterogeneous {x} regulation using quantitative "
+                f"transcriptomic methodologies across experimental conditions." for x in
+                "metabolic immunological neuronal hormonal genomic cellular".split()]
+    clf = MarkerStyleClassifier().fit(casual + academic, ["casual"] * 6 + ["academic"] * 6)
+    # same topic word ("genomic"), casual register -> casual
+    assert clf.predict(["haha i can't believe i lost my genomic notes lol."]) == ["casual"]
