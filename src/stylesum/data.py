@@ -4,7 +4,7 @@ Each public dataset is *streamed* (no full download) and a few thousand
 examples per style are written to ``data/{train,val,test}.jsonl`` with fields
 ``id, style, document, summary``.
 
-* PLOS (Luo et al. 2022, "Making Science Simple") gives two targets for the
+* PLOS (Goldsack et al. 2022, "Making Science Simple") gives two targets for the
   same paper: the author abstract (academic) and the lay summary (simple).
   The abstract is removed from the input so the model cannot copy it.
 * CNN/DailyMail highlights -> formal news style.
