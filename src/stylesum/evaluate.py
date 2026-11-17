@@ -92,7 +92,7 @@ def controllability(fn, docs: list[str], clf) -> dict:
 def _count(xs):
     d = defaultdict(int)
     for x in xs:
-        d[x] += 1
+        d[str(x)] += 1
     return dict(d)
 
 
