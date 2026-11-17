@@ -1,0 +1,119 @@
+{
+  "system": "finetuned",
+  "per_style": {
+    "academic": {
+      "n": 50,
+      "rouge1": 41.02,
+      "rouge2": 11.67,
+      "rougeLsum": 37.85,
+      "style_acc": 26.0,
+      "words": 159.36,
+      "fkgl": 15.61,
+      "flesch": 27.69,
+      "avg_word_len": 5.24,
+      "contractions_pct": 0.0,
+      "first_person_pct": 0.07
+    },
+    "simple": {
+      "n": 50,
+      "rouge1": 40.19,
+      "rouge2": 10.32,
+      "rougeLsum": 36.36,
+      "style_acc": 68.0,
+      "words": 141.16,
+      "fkgl": 15.31,
+      "flesch": 26.52,
+      "avg_word_len": 5.35,
+      "contractions_pct": 0.0,
+      "first_person_pct": 0.03
+    },
+    "formal": {
+      "n": 50,
+      "rouge1": 34.43,
+      "rouge2": 12.97,
+      "rougeLsum": 32.41,
+      "style_acc": 94.0,
+      "words": 45.24,
+      "fkgl": 8.65,
+      "flesch": 57.97,
+      "avg_word_len": 4.88,
+      "contractions_pct": 1.65,
+      "first_person_pct": 0.3
+    },
+    "casual": {
+      "n": 50,
+      "rouge1": 21.21,
+      "rouge2": 5.79,
+      "rougeLsum": 17.99,
+      "style_acc": 98.0,
+      "words": 14.66,
+      "fkgl": 4.77,
+      "flesch": 85.31,
+      "avg_word_len": 3.77,
+      "contractions_pct": 2.09,
+      "first_person_pct": 14.65
+    }
+  },
+  "controllability": {
+    "academic": {
+      "style_acc": 10.0,
+      "predicted": {
+        "academic": 3,
+        "casual": 8,
+        "formal": 10,
+        "simple": 9
+      },
+      "words": 106.13,
+      "fkgl": 11.39,
+      "flesch": 49.66,
+      "avg_word_len": 4.7,
+      "contractions_pct": 1.8,
+      "first_person_pct": 3.21
+    },
+    "simple": {
+      "style_acc": 26.67,
+      "predicted": {
+        "academic": 4,
+        "casual": 8,
+        "formal": 10,
+        "simple": 8
+      },
+      "words": 93.43,
+      "fkgl": 10.8,
+      "flesch": 51.66,
+      "avg_word_len": 4.69,
+      "contractions_pct": 1.94,
+      "first_person_pct": 3.41
+    },
+    "formal": {
+      "style_acc": 40.0,
+      "predicted": {
+        "academic": 3,
+        "casual": 6,
+        "formal": 12,
+        "simple": 9
+      },
+      "words": 45.1,
+      "fkgl": 9.9,
+      "flesch": 50.86,
+      "avg_word_len": 4.89,
+      "contractions_pct": 1.72,
+      "first_person_pct": 3.32
+    },
+    "casual": {
+      "style_acc": 26.67,
+      "predicted": {
+        "academic": 2,
+        "casual": 8,
+        "formal": 10,
+        "simple": 10
+      },
+      "words": 32.33,
+      "fkgl": 10.11,
+      "flesch": 48.75,
+      "avg_word_len": 4.9,
+      "contractions_pct": 0.96,
+      "first_person_pct": 4.1
+    }
+  }
+}

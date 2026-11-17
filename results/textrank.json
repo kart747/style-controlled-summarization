@@ -1,0 +1,57 @@
+{
+  "system": "textrank",
+  "per_style": {
+    "academic": {
+      "n": 50,
+      "rouge1": 29.98,
+      "rouge2": 8.88,
+      "rougeLsum": 26.97,
+      "style_acc": 56.0,
+      "words": 88.6,
+      "fkgl": 17.07,
+      "flesch": 22.73,
+      "avg_word_len": 5.4,
+      "contractions_pct": 0.0,
+      "first_person_pct": 0.02
+    },
+    "simple": {
+      "n": 50,
+      "rouge1": 33.68,
+      "rouge2": 9.03,
+      "rougeLsum": 29.63,
+      "style_acc": 52.0,
+      "words": 88.82,
+      "fkgl": 17.02,
+      "flesch": 20.64,
+      "avg_word_len": 5.48,
+      "contractions_pct": 0.0,
+      "first_person_pct": 0.1
+    },
+    "formal": {
+      "n": 50,
+      "rouge1": 30.37,
+      "rouge2": 10.39,
+      "rougeLsum": 27.83,
+      "style_acc": 92.0,
+      "words": 77.02,
+      "fkgl": 11.59,
+      "flesch": 49.32,
+      "avg_word_len": 4.91,
+      "contractions_pct": 1.52,
+      "first_person_pct": 0.53
+    },
+    "casual": {
+      "n": 50,
+      "rouge1": 17.42,
+      "rouge2": 3.67,
+      "rougeLsum": 13.19,
+      "style_acc": 100.0,
+      "words": 72.44,
+      "fkgl": 8.15,
+      "flesch": 75.78,
+      "avg_word_len": 3.89,
+      "contractions_pct": 1.73,
+      "first_person_pct": 10.32
+    }
+  }
+}

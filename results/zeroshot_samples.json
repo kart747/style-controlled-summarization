@@ -1,0 +1,74 @@
+[
+  {
+    "id": "plos-1874-a",
+    "style": "academic",
+    "pred": "A study on the role of transcription factors in plant abiotic stress responses in thaliana and its stomatal aperture control in the thalidopsis thalaiana, a model species, in the study of apoptosis and apical meristems of the Arabidosis atoparium.",
+    "ref": "Natural disasters, including drought and salt stress, seriously threaten food security. In previous work we cloned a key zinc finger transcription factor gene, Drought and Salt Tolerance (DST), a negative regulator of drought and salt tolerance that controls stomatal aperture in rice. However, the exact mechanism by which DST regulates the expression of target genes remains unknown. In the present study, we demonstrated that DST Co-activator 1 (DCA1), a previously unknown CHY zinc finger protein, acts as an interacting co-activator of DST. DST was found to physically interact with itself and to form a heterologous tetramer with DCA1. This transcriptional complex appears to regulate the expression of peroxidase 24 precursor (Prx 24), a gene encoding an H2O2 scavenger that is more highly expressed in guard cells. Downregulation of DCA1 significantly enhanced drought and salt tolerance in rice, and overexpression of DCA1 increased sensitivity to stress treatment. These phenotypes were mainly influenced by DCA1 and negatively regulated stomatal closure through the direct modulation of genes associated with H2O2 homeostasis. Our findings establish a framework for plant drought and salt stress tolerance through the DCA1-DST-Prx24 pathway. Moreover, due to the evolutionary and functional conservation of DCA1 and DST in plants, engineering of this pathway has the potential to improve tolerance to abiotic stress in other important crop species."
+  },
+  {
+    "id": "plos-722-a",
+    "style": "academic",
+    "pred": "We propose a new methodology for metabolic modeling by mapping the flux space into the metabolite turnover space, which accounts for reaction stoichiometry in the objective function by illustrating how the current methods lead to incoherent biological predictions when alternatively representing the reaction synthesis. We propose an approach to rethinking the problem formulation for metabolites balance, which relates to the objective functions of the metabolic flux state of the cell.",
+    "ref": "Genome-scale metabolic networks provide a comprehensive structural framework for modeling genotype-phenotype relationships through flux simulations. The solution space for the metabolic flux state of the cell is typically very large and optimization-based approaches are often necessary for predicting the active metabolic state under specific environmental conditions. The objective function to be used in such optimization algorithms is directly linked with the biological hypothesis underlying the model and therefore it is one of the most relevant parameters for successful modeling. Although linear combination of selected fluxes is widely used for formulating metabolic objective functions, we show that the resulting optimization problem is sensitive towards stoichiometry representation of the metabolic network. This undesirable sensitivity leads to different simulation results when using numerically different but biochemically equivalent stoichiometry representations and thereby makes biological interpretation intrinsically subjective and ambiguous. We hereby propose a new method, Minimization of Metabolites Balance (MiMBl), which decouples the artifacts of stoichiometry representation from the formulation of the desired objective functions, by casting objective functions using metabolite turnovers rather than fluxes. By simulating perturbed metabolic networks, we demonstrate that the use of stoichiometry representation independent algorithms is fundamental for unambiguously linking modeling results with biological interpretation. For example, MiMBl allowed us to expand the scope of metabolic modeling in elucidating the mechanistic basis of several genetic interactions in Saccharomyces cerevisiae."
+  },
+  {
+    "id": "plos-1089-a",
+    "style": "academic",
+    "pred": "A recombination of the synapsis initiation complex in budding yeast is required for recompination and crossover formation in the yeast S. cerevisiae, and a homologous recombined protein is required to initiate crossover formation and sanapsis. The s. elegans homolog of ZIP3 assembles SC between homologueous chromosomes efficiently in the absence of crossover formation [9].",
+    "ref": "Crossover recombination and the formation of chiasmata normally ensure the proper segregation of homologous chromosomes during the first meiotic division. zhp-3, the Caenorhabditis elegans ortholog of the budding yeast ZIP3 gene, is required for crossover recombination. We show that ZHP-3 protein localization is highly dynamic. At a key transition point in meiotic prophase, the protein shifts from along the length of the synaptonemal complex (SC) to an asymmetric localization on the SC and eventually becomes restricted to foci that mark crossover recombination events. A zhp-3: : gfp transgene partially complements a null mutation and reveals a separation of function; although the fusion protein can promote nearly wild-type levels of recombination, aneuploidy among the progeny is high, indicating defects in meiotic chromosome segregation. The structure of bivalents is perturbed in this mutant, suggesting that the chromosome segregation defect results from an inability to properly remodel chromosomes in response to crossovers. smo-1 mutants exhibit phenotypes similar to zhp-3: : gfp mutants at higher temperatures, and smo-1; zhp-3: : gfp double mutants exhibit more severe meiotic defects than either single mutant, consistent with a role for SUMO in the process of SC disassembly and bivalent differentiation. We propose that coordination of crossover recombination with SC disassembly and bivalent formation reflects a conserved role of Zip3/ZHP-3 in coupling recombination with SC morphogenesis."
+  },
+  {
+    "id": "plos-332-s",
+    "style": "simple",
+    "pred": "NTHI is a causative agent of otitis media, the icc mutant is associated with a clinical indicator of disease resolution and the presence of fluid and bacterial burden of the middle ear.  Global Microevolution of the ICMC in the preclinical model for ottitis medium is characterized by a lack of heme-iron restriction in the nasopharynx and middle ectopic ear tissues.",
+    "ref": "Nontypeable Haemophilus influenzae (NTHI) inhabits diverse niches in the host. The ability to adapt to new microenvironments is consistent with the predominance of NTHI as a causative agent of otitis media (OM) in children. We evaluated the microevolution of NTHI associated with adaptation and persistence in response to nutrient limitation. We identified a naturally occurring mutation that enhances NTHI persistence and formation of intracellular bacterial communities (IBCs) in a pre-clinical model of OM. The presence of IBCs during OM provides the first opportunity to evaluate the role of intracellular populations in chronicity and quiescence as a new paradigm for recurrent OM. This model provides a new platform to identify novel therapeutics for this highly prevalent and costly infectious disease."
+  },
+  {
+    "id": "plos-845-s",
+    "style": "simple",
+    "pred": "MiRNAs regulate gene expression in mammalian spermiogenesis, and the role of the miRNA pathway in spermatogenesis. [4], [5] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [21] [23] [27] [28] [29] [30] [31] [26] [25] [24] [32] [37] [38] [39] [35] [45] [36] [46] [57] [58] [59] [51] [52] [50] [60] [55] [56] [53] [61] [65] [66] [67] [69] [77] [70] [71] [75] [74] [47] [68] [78] [80] [85] [90] [81] [89] [87] [86] [97] [99] [91] [92] [93] [94] [95] [96] [98] [107] [100] [",
+    "ref": "The sustained production of functional motile sperm is critical for male fertility. In recent years, a dramatic increase of cases of male infertility were reported, with the most common cause represented by the production of morphologically abnormal spermatozoa with low motility. Several genetic and environmental factors have been proven to impact on sperm development. In particular, preliminary studies on samples from fertile and sterile individuals suggested that the deregulation of a class of small noncoding RNAs, called microRNAs, might be detrimental for sperm formation. To this end, we investigated the expression of Dicer, a core microRNA pathway component, in male germ cells and observed a peak of expression during meiosis. We performed a microRNA-expression screening and identified 5 members of the miR-34 family (miR-34bc and miR-449abc) as highly expressed from late meiosis to the sperm stage. Deletion of miR-34bc and miR-449 leads to sterility due to the production of abnormal spermatozoa with reduced motility. Thus our work proves for the first time the importance of a microRNA family in sperm formation and male fertility."
+  },
+  {
+    "id": "plos-2520-s",
+    "style": "simple",
+    "pred": "Our results suggest that autophagy is one of the key players in the induction of trained immunity in innate immune cells. We propose the term trained immunity to describe the memory properties of innate immunity cells. Our results demonstrate the role of ubiquitination in the activation of BCG in the innate immunological memory. We conclude that autopy is a key factor in the training of a trained immune cell.",
+    "ref": "Next to its effects against tuberculosis, BCG vaccination also induces non-specific beneficial effects on immune cells to increase their ability to control unrelated pathogens. It has been recently proposed that the non-specific effects of BCG are mediated through epigenetic reprogramming of monocytes, a process called trained immunity. Little is known regarding the intracellular events controlling its induction. In this study we identified autophagy as a key player in trained immunity. Pharmacological inhibition of autophagy as well as polymorphisms in autophagy-related genes blocked BCG-induced trained immunity. Furthermore, BCG vaccine is also used to treat bladder cancer. Genetic polymorphisms in autophagy-related genes correlated with progression and recurrence of bladder cancer after treatment with BCG therapy. These findings open new possibilities for improvement of future BCG-based vaccines to be used against infections and malignancies."
+  },
+  {
+    "id": "cnn-ca05c303244402cb9e69549734c94a9a751e9fbd",
+    "style": "formal",
+    "pred": "Lewis Hamilton escaped punishment after allegations of erratic driving behind the safety car in the Japanese Grand Prix last weekend. Sebastian Vettel ran into the back of Webber when they were racing behind Hamilton. Vettel's original 10-place penalty was replaced with a reprimand.",
+    "ref": "Lewis Hamilton is cleared of erratic driving in the Japanese GP. The FIA probed a crash between Sebastian Vettel and Mark Webber. Hamilton had been ahead behind the safety car."
+  },
+  {
+    "id": "cnn-fd13c81373473f862d0f3559ffbc2a03fa95f492",
+    "style": "formal",
+    "pred": "The U.S. Olympic Committee and the International Olympic Committee are expected to ask a federal judge Monday to shut down Web sites they allege scams. The IOC and the USOC filed lawsuits on July 22 against several Web sites -- primarily www.beijingticketing.com and www.beijing-2008tickets.com -- for illegally using Olympic trademarks to dupe customers into giving them credit card, passport and banking information",
+    "ref": "USOC, IOC claim fake ticket sites have bilked customers using their trademark. Sites www.BeijingTicketing.com and www.beijing-2008tickets.com named in suit. One site claims \"We assure 100 % guaranteed tickets delivery\"."
+  },
+  {
+    "id": "cnn-21a3bf331defe8b1ab9dbadbdf2ca912af11a3f0",
+    "style": "formal",
+    "pred": "A man drove to the Capitol with a rifle and said he had a delivery for President Obama, police say. He told officers that he has delivered President Obama. He was arrested and taken to police headquarters for processing.",
+    "ref": "NEW: Alfred Brock, 64 drove up to Capitol barricade with a rifle in his vehicle. NEW: Brock charged with possession of an unregistered firearm, ammunition. Police say he told them he had a delivery for President Obama. Man was arrested, transported to Capitol Hill police headquarters for processing."
+  },
+  {
+    "id": "tifu-1547",
+    "style": "casual",
+    "pred": "i'm gonna cry out \"wilt chamberlain!\"",
+    "ref": "said one of hitler's 'friends' slept with 20,000 women"
+  },
+  {
+    "id": "tifu-454",
+    "style": "casual",
+    "pred": "chris is a fucking clown.",
+    "ref": "(yes i'm putting it first): i, a 24yr old man, pissed (in) my couch because in the dream i was having i thought i was getting 1 over on my cat. then of course i texted the scenario to my brother and 2 best friends."
+  },
+  {
+    "id": "tifu-1187",
+    "style": "casual",
+    "pred": "i was unemployed. this was in october right before this, i applied for a state job, making 42-52 k a year, buy only 30 hrs a week. i needed a job and this seemed better than nothing. I live in one of",
+    "ref": "post office didn't forward my mail to me and i lost out on a job"
+  }
+]
