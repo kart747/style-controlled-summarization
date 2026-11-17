@@ -121,6 +121,7 @@ def main() -> None:
     ap.add_argument("--clf", type=Path, default=Path("outputs/style_clf.pkl"))
     ap.add_argument("--device", default=None, help="cuda / cpu (default: auto)")
     ap.add_argument("--beams", type=int, default=4)
+    ap.add_argument("--tag", default="", help="suffix for the fine-tuned system name, e.g. _2ep")
     a = ap.parse_args()
 
     a.results.mkdir(parents=True, exist_ok=True)
@@ -137,9 +138,11 @@ def main() -> None:
 
     for name in a.systems:
         fn = make_system(name, a.model, a.device, a.beams)
+        if name == "finetuned" and a.tag:
+            name = f"finetuned{a.tag}"
         res, samples = evaluate_system(name, fn, groups, clfs)
-        report = {"system": name, "per_style": res}
-        if name in ("zeroshot", "finetuned"):
+        report = {"system": name, "per_style": res, "beams": a.beams, "limit": a.limit}
+        if name.startswith(("zeroshot", "finetuned")):
             report["controllability"] = controllability(fn, ctrl_docs, clfs)
         (a.results / f"{name}.json").write_text(json.dumps(report, indent=2))
         (a.results / f"{name}_predictions.json").write_text(json.dumps(samples, indent=2))

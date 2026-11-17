@@ -11,13 +11,14 @@ from pathlib import Path
 
 from .styles import STYLE_NAMES
 
-ORDER = ["reference", "lead3", "textrank", "zeroshot", "finetuned"]
+ORDER = ["reference", "lead3", "textrank", "zeroshot", "finetuned_2ep", "finetuned"]
 LABEL = {
     "reference": "Reference (human)",
     "lead3": "Lead-3 (extractive)",
     "textrank": "TextRank (extractive)",
     "zeroshot": "FLAN-T5-small zero-shot + prompt",
-    "finetuned": "FLAN-T5-small fine-tuned + style prefix",
+    "finetuned_2ep": "FLAN-T5-small fine-tuned + style prefix (2 epochs)",
+    "finetuned": "FLAN-T5-small fine-tuned + style prefix (4 epochs)",
 }
 
 

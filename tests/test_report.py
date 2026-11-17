@@ -16,6 +16,6 @@ def test_render_tables(tmp_path):
                                for s in ["academic", "simple", "formal", "casual"]}}
     (tmp_path / "finetuned.json").write_text(json.dumps(rep))
     md = render(tmp_path)
-    assert "| FLAN-T5-small fine-tuned + style prefix | 30.0 |" in md  # averaged R-1
-    assert "| FLAN-T5-small fine-tuned + style prefix | academic | 40.0 |" in md
+    assert "| FLAN-T5-small fine-tuned + style prefix (4 epochs) | 30.0 |" in md  # averaged R-1
+    assert "| FLAN-T5-small fine-tuned + style prefix (4 epochs) | academic | 40.0 |" in md
     assert "| casual | 50% |" in md
