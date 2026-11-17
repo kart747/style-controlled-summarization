@@ -21,6 +21,10 @@ LABEL = {
 }
 
 
+def _pct(m: dict, key: str) -> str:
+    return f"{m[key]:.0f}%" if key in m else "-"
+
+
 def _load(results: Path) -> list[dict]:
     reports = []
     for name in ORDER:
@@ -31,8 +35,8 @@ def _load(results: Path) -> list[dict]:
 
 
 def quality_table(reports: list[dict]) -> str:
-    head = "| System | Style | R-1 | R-2 | R-Lsum | Style acc. | Words | FK grade |\n"
-    head += "|---|---|---:|---:|---:|---:|---:|---:|\n"
+    head = "| System | Style | R-1 | R-2 | R-Lsum | Style acc. (lexical) | Style acc. (markers) | Words | FK grade |\n"
+    head += "|---|---|---:|---:|---:|---:|---:|---:|---:|\n"
     rows = []
     for rep in reports:
         for style in STYLE_NAMES:
@@ -41,22 +45,25 @@ def quality_table(reports: list[dict]) -> str:
                 continue
             rows.append(
                 f"| {LABEL.get(rep['system'], rep['system'])} | {style} | {m['rouge1']:.1f} | "
-                f"{m['rouge2']:.1f} | {m['rougeLsum']:.1f} | {m['style_acc']:.0f}% | "
+                f"{m['rouge2']:.1f} | {m['rougeLsum']:.1f} | {m['style_acc']:.0f}% | {_pct(m, 'marker_acc')} | "
                 f"{m['words']:.0f} | {m['fkgl']:.1f} |"
             )
     return head + "\n".join(rows)
 
 
 def average_table(reports: list[dict]) -> str:
-    head = "| System | R-1 | R-2 | R-Lsum | Style acc. |\n|---|---:|---:|---:|---:|\n"
+    head = ("| System | R-1 | R-2 | R-Lsum | Style acc. (lexical) | Style acc. (markers) |\n"
+            "|---|---:|---:|---:|---:|---:|\n")
     rows = []
     for rep in reports:
         ms = list(rep["per_style"].values())
         if not ms:
             continue
-        avg = {k: sum(m[k] for m in ms) / len(ms) for k in ("rouge1", "rouge2", "rougeLsum", "style_acc")}
+        keys = [k for k in ("rouge1", "rouge2", "rougeLsum", "style_acc", "marker_acc") if k in ms[0]]
+        avg = {k: sum(m[k] for m in ms) / len(ms) for k in keys}
         rows.append(f"| {LABEL.get(rep['system'], rep['system'])} | {avg['rouge1']:.1f} | "
-                    f"{avg['rouge2']:.1f} | {avg['rougeLsum']:.1f} | {avg['style_acc']:.0f}% |")
+                    f"{avg['rouge2']:.1f} | {avg['rougeLsum']:.1f} | {avg['style_acc']:.0f}% | "
+                    f"{_pct(avg, 'marker_acc')} |")
     return head + "\n".join(rows)
 
 
@@ -67,11 +74,11 @@ def control_table(reports: list[dict]) -> str:
         if not c:
             continue
         out.append(f"**{LABEL.get(rep['system'], rep['system'])}** - same documents, every style requested\n")
-        out.append("| Requested style | Classified as requested | Words | FK grade | Contractions % | 1st-person % |")
-        out.append("|---|---:|---:|---:|---:|---:|")
+        out.append("| Requested style | Style acc. (lexical) | Style acc. (markers) | Words | FK grade | Contractions % | 1st-person % |")
+        out.append("|---|---:|---:|---:|---:|---:|---:|")
         for style in STYLE_NAMES:
             m = c[style]
-            out.append(f"| {style} | {m['style_acc']:.0f}% | {m['words']:.0f} | {m['fkgl']:.1f} | "
+            out.append(f"| {style} | {m['style_acc']:.0f}% | {_pct(m, 'marker_acc')} | {m['words']:.0f} | {m['fkgl']:.1f} | "
                        f"{m['contractions_pct']:.2f} | {m['first_person_pct']:.2f} |")
         out.append("")
     return "\n".join(out)

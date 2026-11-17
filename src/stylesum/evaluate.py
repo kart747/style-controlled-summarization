@@ -23,7 +23,7 @@ from pathlib import Path
 
 from .data import read_jsonl
 from .extractive import EXTRACTIVE
-from .metrics import StyleClassifier, mean_markers, rouge
+from .metrics import MarkerStyleClassifier, StyleClassifier, mean_markers, rouge
 from .model import DEFAULT_MODEL, StyleSummarizer
 from .styles import STYLE_NAMES
 
@@ -36,13 +36,26 @@ def by_style(rows: list[dict], limit: int | None) -> dict[str, list[dict]]:
     return out
 
 
-def get_classifier(data: Path, path: Path) -> StyleClassifier:
+def get_classifier(data: Path, path: Path, cls=StyleClassifier) -> StyleClassifier:
     if path.exists():
-        return StyleClassifier.load(path)
+        return cls.load(path)
     train = read_jsonl(data / "train.jsonl")
-    clf = StyleClassifier().fit([r["summary"] for r in train], [r["style"] for r in train])
+    clf = cls().fit([r["summary"] for r in train], [r["style"] for r in train])
     clf.save(path)
     return clf
+
+
+def get_classifiers(data: Path, outdir: Path) -> dict[str, StyleClassifier]:
+    """``style_acc``: lexical TF-IDF classifier (can use topic words).
+    ``marker_acc``: classifier on surface style markers only (topic-blind)."""
+    return {
+        "style_acc": get_classifier(data, outdir / "style_clf.pkl"),
+        "marker_acc": get_classifier(data, outdir / "style_marker_clf.pkl", MarkerStyleClassifier),
+    }
+
+
+def score_style(clfs: dict[str, StyleClassifier], preds: list[str], style: str) -> dict:
+    return {k: c.accuracy(preds, [style] * len(preds)) for k, c in clfs.items()}
 
 
 def make_system(name: str, model_path: str, device: str | None = None, beams: int = 4):
@@ -57,7 +70,7 @@ def make_system(name: str, model_path: str, device: str | None = None, beams: in
     return lambda docs, style: m.summarize(docs, style, num_beams=beams)
 
 
-def evaluate_system(name, fn, groups, clf) -> tuple[dict, list[dict]]:
+def evaluate_system(name, fn, groups, clfs) -> tuple[dict, list[dict]]:
     res, samples = {}, []
     for style in STYLE_NAMES:
         rows = groups.get(style, [])
@@ -68,22 +81,22 @@ def evaluate_system(name, fn, groups, clf) -> tuple[dict, list[dict]]:
         res[style] = {
             "n": len(rows),
             **rouge(preds, refs),
-            "style_acc": clf.accuracy(preds, [style] * len(preds)),
+            **score_style(clfs, preds, style),
             **mean_markers(preds),
         }
         samples += [{"id": r["id"], "style": style, "pred": p, "ref": r["summary"]}
-                    for r, p in list(zip(rows, preds))[:3]]
+                    for r, p in zip(rows, preds)]
         print(f"[{name}] {style:9s} {res[style]}")
     return res, samples
 
 
-def controllability(fn, docs: list[str], clf) -> dict:
+def controllability(fn, docs: list[str], clfs) -> dict:
     """Generate every style for the same docs (style must come from the prefix)."""
     out = {}
     for style in STYLE_NAMES:
         preds = fn(docs, style)
-        out[style] = {"style_acc": clf.accuracy(preds, [style] * len(preds)),
-                      "predicted": dict(sorted(_count(clf.predict(preds)).items())),
+        out[style] = {**score_style(clfs, preds, style),
+                      "predicted": dict(sorted(_count(clfs["marker_acc"].predict(preds)).items())),
                       **mean_markers(preds)}
         print(f"[control] {style:9s} {out[style]}")
     return out
@@ -111,7 +124,7 @@ def main() -> None:
     a = ap.parse_args()
 
     a.results.mkdir(parents=True, exist_ok=True)
-    clf = get_classifier(a.data, a.clf)
+    clfs = get_classifiers(a.data, a.clf.parent)
     test = read_jsonl(a.data / "test.jsonl")
     groups = by_style(test, a.limit)
     # Controllability docs: a mix of sources, one doc per PLOS paper.
@@ -124,12 +137,12 @@ def main() -> None:
 
     for name in a.systems:
         fn = make_system(name, a.model, a.device, a.beams)
-        res, samples = evaluate_system(name, fn, groups, clf)
+        res, samples = evaluate_system(name, fn, groups, clfs)
         report = {"system": name, "per_style": res}
         if name in ("zeroshot", "finetuned"):
-            report["controllability"] = controllability(fn, ctrl_docs, clf)
+            report["controllability"] = controllability(fn, ctrl_docs, clfs)
         (a.results / f"{name}.json").write_text(json.dumps(report, indent=2))
-        (a.results / f"{name}_samples.json").write_text(json.dumps(samples, indent=2))
+        (a.results / f"{name}_predictions.json").write_text(json.dumps(samples, indent=2))
     print("results ->", a.results)
 
 
