@@ -20,13 +20,23 @@ from sklearn.metrics.pairwise import cosine_similarity
 _ABBREVS = ["Mr", "Mrs", "Ms", "Dr", "Prof", "St", "vs", "e.g", "i.e", "et al", "Fig", "No"]
 _ABBREV = "".join(rf"(?<!\b{re.escape(a)}\.)" for a in _ABBREVS)
 _SENT_RE = re.compile(r"(?<=[.!?])" + _ABBREV + r"\s+(?=[\"'(\[A-Z0-9])")
+# Lenient fallback for informal, all-lowercase text (e.g. Reddit posts).
+_LOOSE_RE = re.compile(r"(?<=[.!?])" + _ABBREV + r"\s+")
+_LONG_SENT_WORDS = 60
 
 
 def split_sentences(text: str) -> list[str]:
     text = re.sub(r"\s+", " ", text or "").strip()
     if not text:
         return []
-    return [s.strip() for s in _SENT_RE.split(text) if s.strip()]
+    out: list[str] = []
+    for s in _SENT_RE.split(text):
+        s = s.strip()
+        if len(s.split()) > _LONG_SENT_WORDS:
+            out.extend(p.strip() for p in _LOOSE_RE.split(s) if p.strip())
+        elif s:
+            out.append(s)
+    return out
 
 
 def lead_k(text: str, k: int = 3) -> str:

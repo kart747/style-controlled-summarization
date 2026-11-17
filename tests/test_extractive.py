@@ -59,3 +59,10 @@ def test_compress_to_budget_single_long_sentence():
 
     out = compress_to_budget(" ".join(["word"] * 100), lambda s: len(s.split()), 10)
     assert len(out.split()) <= 10
+
+
+def test_split_sentences_lowercase_informal_text():
+    post = " ".join(["so i went to the store and bought some milk."] * 10)
+    sents = split_sentences(post)
+    assert len(sents) == 10
+    assert lead_k(post, 3).count("milk") == 3
